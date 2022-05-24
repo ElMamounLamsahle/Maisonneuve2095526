@@ -30,7 +30,6 @@ Route::get('/', [EtudiantController::class, 'index'])->name('etudiants');
 Route::get('/etudiants/{etudiant}', [EtudiantController::class, 'show'])->name('etudiant.show');
 Route::get('/etudiants/{etudiant}/edit', [EtudiantController::class, 'edit'])->name('etudiant.edit');
 Route::put('/etudiants/{etudiant}/edit', [EtudiantController::class, 'update']);
-Route::put('/etudiants/{etudiant}', [EtudiantController::class, 'deactivate']);
 
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles')->middleware('auth');
 Route::get('/mes-articles', [ArticleController::class, 'my_posts'])->name('articles.my')->middleware('auth');

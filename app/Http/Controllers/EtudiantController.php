@@ -94,21 +94,4 @@ class EtudiantController extends Controller
         );
         return redirect(route('etudiant.show',$etudiant->id));
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $etudiant
-     * @return \Illuminate\Http\Response
-     */
-    public function deactivate(User $etudiant)
-    {
-        $etudiant->update(
-            array(
-                'actif' => 0,
-            )
-        );
-        $Auth = new AuthController();
-        $Auth->logout();
-    }
 }
