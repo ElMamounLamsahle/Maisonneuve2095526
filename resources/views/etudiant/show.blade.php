@@ -82,34 +82,10 @@
                     <hr>
                     <div class="row">
                         <div class="col-sm-12">
-                            <a class="btn btn-primary" href="{{ route('etudiant.edit', $student->id) }}">@lang('lang.text_update')</a>
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                @lang('lang.text_delete')
-                            </button>
+                            <a class="btn btn-primary" href="{{ route('etudiant.edit', $student->id) }}">@lang('lang.text_update')</a> 
                         </div>
                     </div>
                 @endif
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">@lang('lang.text_dialog_student_title')</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @lang('lang.text_dialog_student_body')
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('lang.text_cancel')</button>
-                    <form method="post">
-                        @csrf
-                        @method('PUT')
-                        <button class="btn btn-danger">@lang('lang.text_delete')</button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>

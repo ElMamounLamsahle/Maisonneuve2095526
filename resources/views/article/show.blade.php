@@ -25,18 +25,12 @@
                 @endif
             </div>
             <div class="col-lg-9">
-                <!-- Post content-->
                 <article>
-                    <!-- Post header-->
                     <header class="mb-4">
-                        <!-- Post title-->
                         <h3 class="fw-bolder mb-1">{{ $post->titre }}</h3>
-                        <!-- Post meta content-->
                         <div class="text-muted fst-italic mb-2">{{ $post->created_at->format('Y/m/d H:i:s') }}</div>
                     </header>
-                    <!-- Preview image figure-->
-                    <!-- <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." width="100%" /></figure> -->
-                    <!-- Post content-->
+                    <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." width="100%" /></figure>
                     <section class="mb-5">
                         <p>{{ $post->contenu }}</p>
                     </section>
