@@ -18,10 +18,19 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nom',
         'email',
         'password',
+        'adresse',
+        'telephone',
+        'email',
+        'date_naissance',
+        'ville_id'
     ];
+
+    public function userHasCity() {
+        return $this->hasOne('App\Models\Ville', 'id', 'ville_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

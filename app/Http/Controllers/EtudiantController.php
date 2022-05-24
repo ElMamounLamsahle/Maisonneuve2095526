@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Etudiant;
-use App\Models\Ville;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Ville;
+use Auth;
 
 class EtudiantController extends Controller
 {
@@ -15,7 +16,15 @@ class EtudiantController extends Controller
      */
     public function index()
     {
-        $students = Etudiant::select()->orderby('nom')->get();
+        // Pour ne pas afficher l'ustilsateur
+        // dans la liste des étudiants
+        // lorsqu'il est connecté
+        if (Auth::user()) {
+            $students = User::select()->where('id' ,'!=' , Auth::user()->id)->orderby('nom')->get();
+        }
+        else {
+            $students = User::select()->orderby('nom')->get();
+        }
         return view('etudiant.index',
             array(
                 'students' => $students
@@ -24,43 +33,14 @@ class EtudiantController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $villes = Ville::select()->orderby('nom')->get();
-        return view('etudiant.create',
-            array(
-                'villes' => $villes
-            )
-        );
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $newStudent = new Etudiant;
-        $newStudent->fill($request->all());
-        $newStudent->save();
-        return redirect('etudiants/'. $newStudent->id);
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Etudiant  $etudiant
+     * @param  \App\Models\User  $etudiant
      * @return \Illuminate\Http\Response
      */
-    public function show(Etudiant $etudiant)
+    public function show(User $etudiant)
     {
-        $students = Etudiant::select()->where('etudiants.id', $etudiant->id)->get();
+        $students = User::select()->where('users.id', $etudiant->id)->get();
         return view('etudiant.show',
             array(
                 'student' => $students[0]
@@ -71,10 +51,10 @@ class EtudiantController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Etudiant  $etudiant
+     * @param  \App\Models\User $etudiant
      * @return \Illuminate\Http\Response
      */
-    public function edit(Etudiant $etudiant)
+    public function edit(User $etudiant)
     {
         $villes = Ville::select()->orderby('nom')->get();
         return view('etudiant.edit',
@@ -89,18 +69,26 @@ class EtudiantController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Etudiant  $etudiant
+     * @param  \App\Models\User  $etudiant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Etudiant $etudiant)
+    public function update(Request $request, User $etudiant)
     {
+        $request->validate(
+            array(
+                'nom' => 'required|max:255|min:2',
+                'date_naissance' => 'required|date:Y-m-d',
+                'telephone' => 'required|min:10|max:20',
+                'adresse' => 'required|max:100|min:2',
+                'ville_id' => 'required|exists:App\Models\Ville,id',
+            )
+        );
         $etudiant->update(
             array(
                 'nom' => $request->nom,
-                'adresse' => $request->adresse,
-                'phone' => $request->phone,
-                'email' => $request->email,
                 'date_naissance' => $request->date_naissance,
+                'phone' => $request->phone,
+                'adresse' => $request->adresse,
                 'ville_id' => $request->ville_id
             )
         );
@@ -110,12 +98,17 @@ class EtudiantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Etudiant  $etudiant
+     * @param  \App\Models\User  $etudiant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Etudiant $etudiant)
+    public function deactivate(User $etudiant)
     {
-        $etudiant->delete();
-        return redirect(route('etudiants'));
+        $etudiant->update(
+            array(
+                'actif' => 0,
+            )
+        );
+        $Auth = new AuthController();
+        $Auth->logout();
     }
 }

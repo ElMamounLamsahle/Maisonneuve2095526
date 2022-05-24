@@ -158,6 +158,20 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'nom' => 'name',
+        'date_naissance' => 'date of birth',
+        'telephone' => 'phone number',
+        'adresse' => 'address',
+        'ville_id' => 'city',
+        'email' => 'email',
+        'password' => 'password',
+        'password_Confirmation' => 'password confirmation',
+        'titre_en' => 'title in english',
+        'titre_fr' => 'title in french',
+        'contenu_en' => 'content in english',
+        'contenu_fr' => 'content in french',
+        'fichier' => 'file',
+    ],
 
 ];
