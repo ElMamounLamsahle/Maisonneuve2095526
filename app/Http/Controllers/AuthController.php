@@ -75,10 +75,12 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
+        $minDateOfBirth = date('Y') - 65 .'-01-01';
+        $maxDateOfBirth = date('Y') - 17 .'-12-31';
         $request->validate(
             array(
                 'nom' => 'required|max:255|min:2',
-                'date_naissance' => 'required|date:Y-m-d',
+                'date_naissance' => 'required|date:Y-m-d|after_or_equal:' .$minDateOfBirth. '|before_or_equal:' .$maxDateOfBirth,
                 'telephone' => 'required|min:10|max:20',
                 'adresse' => 'required|max:100|min:2',
                 'ville_id' => 'required|exists:App\Models\Ville,id',
